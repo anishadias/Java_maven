@@ -21,19 +21,12 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Set up Maven
-      run: |
-        mkdir -p $HOME/.m2
-        cp ./github/workflows/settings.xml $HOME/.m2/settings.xml
+        settings-path: '.github/workflows/settings.xml'
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: Read settings.xml
-      id: read-settings
-      run: echo "::set-output name=settings::$(cat $HOME/.m2/settings.xml)"
     - name: Display settings.xml content
-      run: echo "${{ steps.read-settings.outputs.settings }}"
+      run: cat $HOME/.m2/settings.xml
 
-   
   publish-job:
     runs-on: ubuntu-latest
     needs: build_test
