@@ -23,8 +23,11 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: Display
-      run : cat /home/runner/.m2/settings.xml
+    - name: Read settings.xml
+      id: read-settings
+      run: echo "::set-output name=settings::$(cat $HOME/.m2/settings.xml)"
+    - name: Display settings.xml content
+      run: echo "${{ steps.read-settings.outputs.settings }}"
 
    
   publish-job:
